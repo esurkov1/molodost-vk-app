@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>TargetHunter VK Mini App wrapper</title>
+
+    <!-- Запрет индексирования и «переходов по ссылкам» поисковиками -->
+    <meta name="robots" content="noindex,nofollow">
+
+    <!-- Просьба не кешировать (дублируем pragma ради старых UA) -->
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+
+    <style>
+        html, body, iframe { width:100%; height:100%; margin:0; padding:0; border:0; }
+    </style>
+</head>
+<body>
+
+<iframe id="th-frame" src=""
+        allow="clipboard-write; encrypted-media; autoplay; fullscreen">
+</iframe>
+
+<script>
+    (function () {
+        /* Базовый адрес приложения */
+        const baseSrc =
+            'https://vk-mini-app.targethunter.ru/' +
+            '?vk_access_token_settings=&vk_app_id=7070938' +
+            '&vk_are_notifications_enabled=0&vk_group_id=188630717' +
+            '&vk_is_app_user=1&vk_is_favorite=0&vk_language=ru' +
+            '&vk_platform=desktop_web&vk_ref=group_menu' +
+            '&vk_ts=1751032027&vk_user_id=38510894' +
+            '&vk_viewer_group_role=admin' +
+            '&sign=OBDWnJfvFErAVrZvbAMb9_HsS9wLpOod1NjTi_2E_ec' +
+            '#s=6834b29709965730bd31b158';
+
+        const fullUrl = new URL(baseSrc);
+        const hostParams = new URLSearchParams(window.location.search);
+
+        /* Прокидываем только utm_* параметры оболочки */
+        hostParams.forEach((value, key) => {
+            if (key.startsWith('utm_')) fullUrl.searchParams.set(key, value);
+        });
+
+        document.getElementById('th-frame').src = fullUrl.toString();
+    })();
+</script>
+
+</body>
+</html>
